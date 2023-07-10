@@ -240,12 +240,11 @@ namespace 概率
             {
                 Random random = new Random((int)DateTime.Now.Ticks + i);
                 int v1 = random.Next(0, 100);
-
                 for(int j = 0; j < 10; j++)
                 {
                     if (v1 < 概率转化的数据[j])
                     {
-                        if(j == 0 || v1 > 概率转化的数据[j - 1])
+                        if(j == 0 || v1 >= 概率转化的数据[j - 1])
                         {
                             采集的数据[j]++;
                         }
@@ -253,11 +252,13 @@ namespace 概率
                 }
             }
 
+            int 概率总和 = 0;
             for(int i = 0; i< 10; i++)
             {
-                采集的数据[i] = 采集的数据[i] / 10;
+                采集的数据[i] = (int)Math.Round(采集的数据[i] * 1.0f / (1000f / 100f), 0, MidpointRounding.AwayFromZero);
+                概率总和 += 采集的数据[i];
             }
-            label_show.Text = "数据采集完毕";
+            label_show.Text = "数据采集完毕 概率总和:" + 概率总和;
         }
 
         private void btn_run_Click(object sender, EventArgs e)
